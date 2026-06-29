@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+client/node_modules/
+
+# Build output
+client/dist/
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Env
+.env
+.env.local
+*.local
+
+# OS / Editor
+.DS_Store
+.vscode/
+
+# One-off helper scripts (not for deploy)
+fetch-images.js
+
+
