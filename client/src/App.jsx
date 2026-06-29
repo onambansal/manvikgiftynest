@@ -6,6 +6,10 @@ import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import FloatingContacts from './components/FloatingContacts.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
+import ScrollProgress from './components/ScrollProgress.jsx';
+import BackToTop from './components/BackToTop.jsx';
+import CartToast from './components/CartToast.jsx';
+
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
 import Products from './pages/Products.jsx';
@@ -22,9 +26,11 @@ export default function App() {
   return (
 
     <>
+      <ScrollProgress />
       <ScrollToTop />
       <Navbar />
       <main>
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -37,6 +43,9 @@ export default function App() {
       </main>
       <Footer />
       <FloatingContacts />
+      <BackToTop />
+      <CartToast />
     </>
+
   );
 }

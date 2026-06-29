@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
 import { BUSINESS } from '../config.js';
+
 
 const links = [
   { to: '/', label: 'Home', end: true },
@@ -12,11 +13,30 @@ const links = [
 ];
 
 export default function Navbar() {
-  const { count } = useCart();
+  const { count, bump } = useCart();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [pop, setPop] = useState(false);
+
+  // Shrink navbar after scrolling past the top.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Bounce the cart badge whenever an item is added.
+  useEffect(() => {
+    if (bump === 0) return;
+    setPop(true);
+    const t = setTimeout(() => setPop(false), 450);
+    return () => clearTimeout(t);
+  }, [bump]);
 
   return (
-    <header className="navbar">
+    <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
+
       <div className="container navbar__inner">
         <Link to="/" className="brand" onClick={() => setOpen(false)}>
           <span className="brand__mark">M</span>
@@ -51,7 +71,10 @@ export default function Navbar() {
           ))}
           <Link to="/cart" className="nav__cart" onClick={() => setOpen(false)}>
             <CartIcon />
-            {count > 0 && <span className="nav__cart-badge">{count}</span>}
+            {count > 0 && (
+              <span className={`nav__cart-badge ${pop ? 'nav__cart-badge--pop' : ''}`}>{count}</span>
+            )}
+
           </Link>
         </nav>
       </div>

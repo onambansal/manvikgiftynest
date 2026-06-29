@@ -15,6 +15,10 @@ export const BUSINESS = {
   city: 'Delhi',
   serviceArea: 'Pan India',
   country: 'India',
+  // Live site URL (no trailing slash) — used for canonical + Open Graph + sitemap.
+  siteUrl: 'https://manvikgiftynest-re.vercel.app',
+  // Social share image (place a 1200x630 image at client/public/og-image.jpg).
+  ogImage: '/og-image.jpg',
 };
 
 // Derived / convenience strings (kept here so copy stays consistent).
@@ -50,8 +54,20 @@ export const waLink = (text = '') =>
 export const telLink = (num) => `tel:+91${num}`;
 export const mailLink = () => `mailto:${BUSINESS.email}`;
 
+// Local fallback image (avoids dead external placeholder hosts).
+export const FALLBACK_IMAGE =
+  'data:image/svg+xml;utf8,' +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600"><rect width="100%" height="100%" fill="#f3eee2"/><text x="50%" y="50%" font-family="Georgia,serif" font-size="34" fill="#c9a24b" text-anchor="middle" dominant-baseline="middle">Manvik Gift</text></svg>`
+  );
+
+
+// Absolute URL helper for canonical / OG tags.
+export const absoluteUrl = (path = '/') =>
+  `${BUSINESS.siteUrl}${path.startsWith('/') ? path : `/${path}`}`;
+
 // Apply config-driven document title + meta description at runtime.
-// (index.html is static and cannot import this file, so we set it here.)
+// (Fallback for any page that doesn't render the <Seo> component.)
 export function applyDocumentMeta() {
   if (typeof document === 'undefined') return;
   document.title = BUSINESS_DERIVED.metaTitle;
@@ -63,3 +79,25 @@ export function applyDocumentMeta() {
   }
   meta.setAttribute('content', BUSINESS_DERIVED.metaDescription);
 }
+
+// JSON-LD structured data for a LocalBusiness (helps Google rich results).
+
+export const localBusinessJsonLd = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: BUSINESS.name,
+  description: BUSINESS_DERIVED.metaDescription,
+  url: BUSINESS.siteUrl,
+  email: BUSINESS.email,
+  image: absoluteUrl(BUSINESS.ogImage),
+  telephone: BUSINESS.phones.map((p) => `+91${p}`),
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: BUSINESS.city,
+    addressCountry: BUSINESS.country,
+  },
+  areaServed: BUSINESS.serviceArea,
+  sameAs: [BUSINESS.instagram],
+});
+
+

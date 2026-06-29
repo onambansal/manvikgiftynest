@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import Seo from '../components/Seo.jsx';
 import { BUSINESS, MESSAGES, telLink, mailLink, waLink } from '../config.js';
+
 
 
 export default function Contact() {
@@ -45,9 +47,15 @@ export default function Contact() {
 
   return (
     <>
+      <Seo
+        title="Contact"
+        description={`Contact ${BUSINESS.name} for bulk orders, custom branding or any corporate gifting requirement. Based in ${BUSINESS.city}, delivering ${BUSINESS.serviceArea}.`}
+        path="/contact"
+      />
       <section className="page-hero">
         <div className="container">
           <span className="eyebrow eyebrow--light">Contact Us</span>
+
           <h1 className="page-hero__title">Let's plan your perfect gift</h1>
           <p className="page-hero__sub">
             Reach out for bulk orders, custom branding or any gifting requirement. We're based in

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import Seo from '../components/Seo.jsx';
 import { api } from '../api';
+
 
 export default function Gallery() {
   const [items, setItems] = useState([]);
@@ -16,9 +18,15 @@ export default function Gallery() {
 
   return (
     <>
+      <Seo
+        title="Gallery"
+        description="A showcase of corporate gifts, hampers and branded merchandise we have designed and delivered for clients across India."
+        path="/gallery"
+      />
       <section className="page-hero">
         <div className="container">
           <span className="eyebrow eyebrow--light">Past Designs</span>
+
           <h1 className="page-hero__title">A glimpse of our craftsmanship</h1>
           <p className="page-hero__sub">
             Real gifts and hampers we've designed and delivered for our clients across India.

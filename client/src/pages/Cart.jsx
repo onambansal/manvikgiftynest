@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Seo from '../components/Seo.jsx';
 import { useCart } from '../context/CartContext.jsx';
 import { waLink, mailLink, MESSAGES } from '../config.js';
+
 
 
 export default function Cart() {
@@ -76,7 +78,9 @@ export default function Cart() {
 
   return (
     <>
+      <Seo title="Cart" description="Review your selected gifts and send a quick enquiry via WhatsApp or email." path="/cart" />
       <section className="page-hero page-hero--sm">
+
         <div className="container">
           <span className="eyebrow eyebrow--light">Your Cart</span>
           <h1 className="page-hero__title">Review &amp; send your enquiry</h1>

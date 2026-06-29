@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard.jsx';
 import SectionHeading from '../components/SectionHeading.jsx';
+import Seo from '../components/Seo.jsx';
+import SkeletonCard from '../components/SkeletonCard.jsx';
 import { api } from '../api';
 import { CATEGORIES } from '../config.js';
+
+
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -23,9 +27,15 @@ export default function Products() {
 
   return (
     <>
+      <Seo
+        title="Products"
+        description="Browse our curated corporate, employee and promotional gifting range — fully customizable to your brand. Bulk orders welcome, Pan India delivery."
+        path="/products"
+      />
       <section className="page-hero">
         <div className="container">
           <span className="eyebrow eyebrow--light">Our Catalogue</span>
+
           <h1 className="page-hero__title">Explore our gifting range</h1>
           <p className="page-hero__sub">
             Browse curated gifts across Corporate, Employee and Promotional categories. Everything
@@ -49,7 +59,11 @@ export default function Products() {
           </div>
 
           {loading ? (
-            <p className="muted center">Loading products…</p>
+            <div className="grid-products">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <SkeletonCard key={i} />
+              ))}
+            </div>
           ) : filtered.length ? (
             <div className="grid-products">
               {filtered.map((p) => (
@@ -59,6 +73,7 @@ export default function Products() {
           ) : (
             <p className="muted center">No products in this category yet.</p>
           )}
+
         </div>
       </section>
     </>

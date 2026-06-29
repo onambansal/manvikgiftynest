@@ -3,8 +3,14 @@ import { Link } from 'react-router-dom';
 import Marquee from '../components/Marquee.jsx';
 import ProductCard from '../components/ProductCard.jsx';
 import SectionHeading from '../components/SectionHeading.jsx';
+import Seo from '../components/Seo.jsx';
+import Reveal from '../components/Reveal.jsx';
+import Stat from '../components/Stat.jsx';
+import SkeletonCard from '../components/SkeletonCard.jsx';
 import { api } from '../api';
 import { BUSINESS } from '../config.js';
+
+
 
 
 const services = [
@@ -44,34 +50,37 @@ export default function Home() {
 
   return (
     <>
+      <Seo path="/" includeJsonLd />
       {/* Hero */}
-      <section className="hero">
+      <section className="hero hero--animate">
+
         <div className="hero__bg" />
         <div className="container hero__inner">
           <div className="hero__content">
-            <span className="eyebrow eyebrow--light">Premier {BUSINESS.navSubtitle} · {BUSINESS.city} → {BUSINESS.serviceArea}</span>
+            <span className="eyebrow eyebrow--light hero__el" style={{ '--d': '0ms' }}>Premier {BUSINESS.navSubtitle} · {BUSINESS.city} → {BUSINESS.serviceArea}</span>
 
-            <h1 className="hero__title">
+            <h1 className="hero__title hero__el" style={{ '--d': '90ms' }}>
               Gifts that make a <em>lasting impression</em>
             </h1>
-            <p className="hero__lead">
+            <p className="hero__lead hero__el" style={{ '--d': '180ms' }}>
               {BUSINESS.name} crafts thoughtful, personalized and high-quality gifting solutions
 
               that strengthen corporate relationships and delight your teams.
             </p>
-            <div className="hero__cta">
+            <div className="hero__cta hero__el" style={{ '--d': '270ms' }}>
               <Link to="/products" className="btn btn--gold">Explore Products</Link>
               <Link to="/contact" className="btn btn--ghost">Request a Quote</Link>
             </div>
-            <div className="hero__stats">
-              <div><strong>500+</strong><span>Gifts Curated</span></div>
-              <div><strong>100%</strong><span>Customizable</span></div>
-              <div><strong>Pan India</strong><span>Delivery</span></div>
+            <div className="hero__stats hero__el" style={{ '--d': '360ms' }}>
+              <Stat value={500} suffix="+" label="Gifts Curated" />
+              <Stat value={100} suffix="%" label="Customizable" />
+              <Stat value="Pan India" label="Delivery" />
             </div>
           </div>
           <div className="hero__art">
             <img
               className="hero__img hero__img--1"
+
               src="https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&w=700&q=80"
               alt="Festive gift hamper"
             />
@@ -96,7 +105,7 @@ export default function Home() {
           />
           <div className="services">
             {services.map((s, i) => (
-              <article className={`service service--${i}`} key={s.title}>
+              <Reveal as="article" className={`service service--${i}`} delay={i * 120} key={s.title}>
                 <div className="service__media">
                   <img src={s.img} alt={s.title} loading="lazy" />
                 </div>
@@ -105,9 +114,10 @@ export default function Home() {
                   <p>{s.desc}</p>
                   <Link to="/products" className="link-arrow">Discover →</Link>
                 </div>
-              </article>
+              </Reveal>
             ))}
           </div>
+
         </div>
       </section>
 
@@ -125,13 +135,14 @@ export default function Home() {
           </div>
           <div className="why__grid">
             {whyUs.map((w, i) => (
-              <div className="why__card" key={w.t}>
+              <Reveal className="why__card" delay={i * 100} key={w.t}>
                 <span className="why__num">0{i + 1}</span>
                 <h4>{w.t}</h4>
                 <p>{w.d}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
+
         </div>
       </section>
 
@@ -144,15 +155,12 @@ export default function Home() {
             sub="A glimpse of our most-loved curated gifts."
             center
           />
-          {featured.length ? (
-            <div className="grid-products">
-              {featured.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
-            </div>
-          ) : (
-            <p className="muted center">Loading products…</p>
-          )}
+          <div className="grid-products">
+            {featured.length
+              ? featured.map((p) => <ProductCard key={p.id} product={p} />)
+              : Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)}
+          </div>
+
           <div className="center" style={{ marginTop: '2rem' }}>
             <Link to="/products" className="btn btn--gold">View All Products</Link>
           </div>

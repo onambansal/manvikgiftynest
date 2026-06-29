@@ -1,12 +1,19 @@
 import { Link } from 'react-router-dom';
 import SectionHeading from '../components/SectionHeading.jsx';
+import Seo from '../components/Seo.jsx';
 import { BUSINESS } from '../config.js';
 
 
 export default function About() {
   return (
     <>
+      <Seo
+        title="About Us"
+        description={`Learn about ${BUSINESS.name}, a premier corporate gifting company based in ${BUSINESS.city} serving ${BUSINESS.serviceArea}. Personalized corporate, employee and promotional gifts.`}
+        path="/about"
+      />
       <section className="page-hero">
+
         <div className="container">
           <span className="eyebrow eyebrow--light">About {BUSINESS.name}</span>
 

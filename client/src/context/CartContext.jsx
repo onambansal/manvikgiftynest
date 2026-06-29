@@ -15,6 +15,11 @@ export function CartProvider({ children }) {
     localStorage.setItem('mgn_cart', JSON.stringify(items));
   }, [items]);
 
+  // Toast shown when an item is added.
+  const [toast, setToast] = useState(null);
+  // Bumps each time an item is added (drives the navbar badge bounce).
+  const [bump, setBump] = useState(0);
+
   const addItem = (product, qty = 1) => {
     setItems((prev) => {
       const existing = prev.find((i) => i.id === product.id);
@@ -23,7 +28,19 @@ export function CartProvider({ children }) {
       }
       return [...prev, { ...product, qty }];
     });
+    setBump((b) => b + 1);
+    setToast({ name: product.name, image: product.image, ts: Date.now() });
   };
+
+  const dismissToast = () => setToast(null);
+
+  // Auto-dismiss the toast after a few seconds.
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 3200);
+    return () => clearTimeout(t);
+  }, [toast]);
+
 
   const removeItem = (id) => setItems((prev) => prev.filter((i) => i.id !== id));
 
@@ -40,7 +57,19 @@ export function CartProvider({ children }) {
     [items]
   );
 
-  const value = { items, addItem, removeItem, setQty, clear, count, total };
+  const value = {
+    items,
+    addItem,
+    removeItem,
+    setQty,
+    clear,
+    count,
+    total,
+    toast,
+    dismissToast,
+    bump,
+  };
+
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
