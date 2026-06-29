@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext.jsx';
 import { FALLBACK_IMAGE } from '../config.js';
+import { useTilt } from '../hooks/useTilt.js';
 import QuickView from './QuickView.jsx';
 
 export default function ProductCard({ product }) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
   const [quick, setQuick] = useState(false);
+  const tiltRef = useTilt({ max: 7 });
+
 
   const handleAdd = (e) => {
     e.stopPropagation();
@@ -17,12 +20,14 @@ export default function ProductCard({ product }) {
 
   return (
     <>
-      <article className="pcard">
+      <article className="pcard pcard--tilt" ref={tiltRef}>
+        <span className="pcard__glare" aria-hidden="true" />
         <button
           className="pcard__media"
           onClick={() => setQuick(true)}
           aria-label={`Quick view ${product.name}`}
         >
+
           <img
             src={product.image || FALLBACK_IMAGE}
             alt={product.name}

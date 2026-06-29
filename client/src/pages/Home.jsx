@@ -7,6 +7,9 @@ import Seo from '../components/Seo.jsx';
 import Reveal from '../components/Reveal.jsx';
 import Stat from '../components/Stat.jsx';
 import SkeletonCard from '../components/SkeletonCard.jsx';
+import HeroFx from '../components/HeroFx.jsx';
+import WaveDivider from '../components/WaveDivider.jsx';
+
 import { api } from '../api';
 import { BUSINESS } from '../config.js';
 
@@ -55,13 +58,16 @@ export default function Home() {
       <section className="hero hero--animate">
 
         <div className="hero__bg" />
+        <HeroFx />
         <div className="container hero__inner">
+
           <div className="hero__content">
             <span className="eyebrow eyebrow--light hero__el" style={{ '--d': '0ms' }}>Premier {BUSINESS.navSubtitle} · {BUSINESS.city} → {BUSINESS.serviceArea}</span>
 
             <h1 className="hero__title hero__el" style={{ '--d': '90ms' }}>
-              Gifts that make a <em>lasting impression</em>
+              Gifts that make a <em className="shimmer-text">lasting impression</em>
             </h1>
+
             <p className="hero__lead hero__el" style={{ '--d': '180ms' }}>
               {BUSINESS.name} crafts thoughtful, personalized and high-quality gifting solutions
 
@@ -122,7 +128,9 @@ export default function Home() {
       </section>
 
       {/* Why us */}
+      <WaveDivider color="var(--cream-2)" />
       <section className="section section--alt">
+
         <div className="container why">
           <div className="why__intro">
             <SectionHeading eyebrow="Why Choose Us" title="Crafted with care, delivered with pride" />
@@ -147,10 +155,12 @@ export default function Home() {
       </section>
 
       {/* Featured products */}
+      <WaveDivider flip color="var(--cream-2)" />
       <section className="section">
         <div className="container">
           <SectionHeading
             eyebrow="Featured"
+
             title="Handpicked gifting favourites"
             sub="A glimpse of our most-loved curated gifts."
             center
