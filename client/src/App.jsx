@@ -9,6 +9,9 @@ import ScrollToTop from './components/ScrollToTop.jsx';
 import ScrollProgress from './components/ScrollProgress.jsx';
 import BackToTop from './components/BackToTop.jsx';
 import CartToast from './components/CartToast.jsx';
+import CustomCursor from './components/CustomCursor.jsx';
+import PageTransition from './components/PageTransition.jsx';
+
 
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
@@ -28,24 +31,27 @@ export default function App() {
     <>
       <ScrollProgress />
       <ScrollToTop />
+      <CustomCursor />
       <Navbar />
       <main>
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <PageTransition>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </PageTransition>
       </main>
       <Footer />
       <FloatingContacts />
       <BackToTop />
       <CartToast />
     </>
+
 
   );
 }

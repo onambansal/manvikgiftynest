@@ -12,9 +12,11 @@ export default function Reveal({
   children,
   as: Tag = 'div',
   delay = 0,
+  variant = '', // '', 'blur', 'zoom'
   className = '',
   ...rest
 }) {
+
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
@@ -47,7 +49,8 @@ export default function Reveal({
   return (
     <Tag
       ref={ref}
-      className={`reveal ${visible ? 'reveal--in' : ''} ${className}`.trim()}
+      className={`reveal ${variant ? `reveal--${variant}` : ''} ${visible ? 'reveal--in' : ''} ${className}`.trim()}
+
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
       {...rest}
     >

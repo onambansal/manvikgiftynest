@@ -7,7 +7,7 @@ import { useCountUp } from '../hooks/useCountUp.js';
 export default function Stat({ value, suffix = '', label }) {
   const { ref, display } = useCountUp(value, { suffix });
   return (
-    <div ref={ref}>
+    <div ref={ref} className="hero-stat">
       <strong>{display}</strong>
       <span>{label}</span>
     </div>

@@ -9,9 +9,11 @@ import Stat from '../components/Stat.jsx';
 import SkeletonCard from '../components/SkeletonCard.jsx';
 import HeroFx from '../components/HeroFx.jsx';
 import WaveDivider from '../components/WaveDivider.jsx';
+import { useMagnetic } from '../hooks/useMagnetic.js';
 
 import { api } from '../api';
 import { BUSINESS } from '../config.js';
+
 
 
 
@@ -43,6 +45,8 @@ const whyUs = [
 
 export default function Home() {
   const [featured, setFeatured] = useState([]);
+  const exploreRef = useMagnetic({ strength: 0.3 });
+
 
   useEffect(() => {
     api
@@ -74,9 +78,10 @@ export default function Home() {
               that strengthen corporate relationships and delight your teams.
             </p>
             <div className="hero__cta hero__el" style={{ '--d': '270ms' }}>
-              <Link to="/products" className="btn btn--gold">Explore Products</Link>
+              <Link to="/products" ref={exploreRef} className="btn btn--gold">Explore Products</Link>
               <Link to="/contact" className="btn btn--ghost">Request a Quote</Link>
             </div>
+
             <div className="hero__stats hero__el" style={{ '--d': '360ms' }}>
               <Stat value={500} suffix="+" label="Gifts Curated" />
               <Stat value={100} suffix="%" label="Customizable" />

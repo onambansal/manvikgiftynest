@@ -549,8 +549,82 @@ a.contact-card__value:hover { color: var(--gold); }
 .wave-divider--flip svg { transform: scaleY(-1); }
 .wave-divider--flip { margin-top: -1px; margin-bottom: 0; }
 
+/* ============================================================
+   Luxury polish — glass, gold, gradients, texture, cursor
+   ============================================================ */
+
+/* Film-grain / noise texture overlay (very subtle) */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Richer gradient section backgrounds */
+.hero { background: linear-gradient(150deg, #1f3d35 0%, #16302a 55%, #102420 100%); }
+.section--alt { background: linear-gradient(180deg, #efe7d8 0%, #f3ecde 100%); }
+.cta-banner { background: linear-gradient(120deg, var(--gold) 0%, var(--gold-soft) 60%, #d8b65f 100%); }
+
+/* Glassmorphism navbar */
+.navbar--glass { background: rgba(247, 242, 233, 0.55); backdrop-filter: blur(16px) saturate(1.2); border-bottom: 1px solid rgba(201,162,75,.18); }
+.navbar--glass.navbar--scrolled { background: rgba(247, 242, 233, 0.82); box-shadow: 0 10px 30px rgba(31,61,53,.1); }
+
+/* Frosted glass hero stat chips */
+.hero-stat {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(224,189,106,.25);
+  border-radius: 14px; padding: .8rem 1.1rem; backdrop-filter: blur(6px);
+}
+
+/* Eyebrow ornament — line · dot · line */
+.eyebrow--ornament { display: inline-flex; align-items: center; gap: .6rem; }
+.eyebrow--ornament::before, .eyebrow--ornament::after {
+  content: ''; width: 26px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold));
+}
+.eyebrow--ornament::after { background: linear-gradient(90deg, var(--gold), transparent); }
+
+/* Gold-foil gradient on section headings */
+.section-head__title {
+  background: linear-gradient(95deg, var(--emerald) 0%, #2f5b4f 40%, var(--emerald) 70%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+}
+
+/* Layered shadow + animated conic gold ring on product cards */
+.pcard--lux { position: relative; transition: transform .2s ease, box-shadow .35s ease; }
+.pcard--lux:hover { box-shadow: 0 20px 50px rgba(31,61,53,.18), 0 0 0 1px rgba(201,162,75,.25), 0 0 40px rgba(201,162,75,.18); }
+.pcard__ring {
+  position: absolute; inset: -1px; z-index: 0; border-radius: calc(var(--radius) + 1px); padding: 1px;
+  background: conic-gradient(from var(--a, 0deg), transparent 60%, var(--gold-soft), var(--gold), transparent 85%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity .4s ease; animation: ringSpin 6s linear infinite;
+}
+.pcard--lux:hover .pcard__ring { opacity: 1; }
+@property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@keyframes ringSpin { to { --a: 360deg; } }
+
+/* Custom gold cursor */
+body.has-custom-cursor { cursor: none; }
+body.has-custom-cursor a, body.has-custom-cursor button, body.has-custom-cursor .chip, body.has-custom-cursor input, body.has-custom-cursor textarea { cursor: none; }
+.cursor-ring, .cursor-dot { position: fixed; top: 0; left: 0; z-index: 2000; pointer-events: none; border-radius: 50%; margin-left: -1px; margin-top: -1px; }
+.cursor-ring {
+  width: 34px; height: 34px; margin-left: -17px; margin-top: -17px;
+  border: 1.5px solid var(--gold); transition: width .25s ease, height .25s ease, background .25s ease, border-color .25s ease;
+}
+.cursor-ring--active { width: 52px; height: 52px; margin-left: -26px; margin-top: -26px; background: rgba(201,162,75,.12); border-color: var(--gold-soft); }
+.cursor-dot { width: 6px; height: 6px; margin-left: -3px; margin-top: -3px; background: var(--gold); }
+
+/* Page transitions */
+.page-transition { transition: opacity .4s ease, transform .4s cubic-bezier(.2,.7,.2,1); }
+.page-transition--out { opacity: 0; transform: translateY(12px); }
+.page-transition--in { opacity: 1; transform: none; }
+
+/* Blur-to-sharp reveal variant */
+.reveal--blur { filter: blur(10px); }
+.reveal--blur.reveal--in { filter: blur(0); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1), filter .8s ease; }
+
 @media (prefers-reduced-motion: reduce) {
   .reveal, .hero--animate .hero__el { opacity: 1 !important; transform: none !important; animation: none !important; }
+  .reveal--blur { filter: none !important; }
   .skeleton::after { animation: none; }
   .scroll-progress { transition: none; }
   .hero-fx, .shimmer-text { animation: none !important; }
@@ -558,7 +632,10 @@ a.contact-card__value:hover { color: var(--gold); }
   .shimmer-text { -webkit-text-fill-color: var(--gold-soft); color: var(--gold-soft); }
   .section-head__underline { transition: none; transform: scaleX(1); }
   .pcard--tilt { transform: none !important; }
+  .pcard__ring { animation: none; }
+  .page-transition { transition: none; }
 }
+
 
 
 @media (max-width: 720px) {

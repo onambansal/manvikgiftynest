@@ -20,8 +20,10 @@ export default function ProductCard({ product }) {
 
   return (
     <>
-      <article className="pcard pcard--tilt" ref={tiltRef}>
+      <article className="pcard pcard--tilt pcard--lux" ref={tiltRef}>
+        <span className="pcard__ring" aria-hidden="true" />
         <span className="pcard__glare" aria-hidden="true" />
+
         <button
           className="pcard__media"
           onClick={() => setQuick(true)}

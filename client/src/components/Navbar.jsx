@@ -35,7 +35,8 @@ export default function Navbar() {
   }, [bump]);
 
   return (
-    <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
+    <header className={`navbar navbar--glass ${scrolled ? 'navbar--scrolled' : ''}`}>
+
 
       <div className="container navbar__inner">
         <Link to="/" className="brand" onClick={() => setOpen(false)}>
